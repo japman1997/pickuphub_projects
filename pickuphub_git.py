@@ -83,11 +83,7 @@ def fetch_matches(driver):
     soup = BeautifulSoup(driver.page_source, "html.parser")
     page_text = soup.get_text(strip=True)
 
-    print("DEBUG :\n" + str(page_text.split("My Schedule")))
-
     match_list_unclean = page_text.split("My Schedule")[1].split("Recommended Games")[0].split("(Indoor)")
-
-    # print("DEBUG :\n" + str(match_list_unclean))
 
     matches = []
     if match_list_unclean[0] != 'No scheduled games right now.':
@@ -115,9 +111,9 @@ def check_for_existing_event(service, calendar_id, event_start_time):
         q='Volleyball',
         singleEvents=True,
     ).execute()
-
+    
     for event in events_result.get('items', []):
-        if 'Volleyball' in event.get('summary', ''):
+        if 'Volleyball' in event.get('summary', '') and event_start_time.isoformat()==event['start']['dateTime']:
             print(f"Event already exists: {event['summary']} at {event['start']['dateTime']}")
             return False
     print("Event doesn't exist.")
@@ -157,6 +153,7 @@ def main():
 
     driver = get_driver()
     login_to_pickuphub(driver)
+    time.sleep(3)
     matches = fetch_matches(driver)
 
     if not matches:
