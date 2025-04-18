@@ -10,6 +10,7 @@ from bs4 import BeautifulSoup
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
 import pytz
+import json
 
 USERNAME = os.getenv("USERNAME")
 PASSWORD = os.getenv("PASSWORD")
@@ -145,6 +146,14 @@ def add_event_to_calendar(event):
 def main():
     print("-" * 30)
     print("Starting script...")
+
+    
+    try:
+        with open("service_account.json") as f:
+            json.load(f)
+    except json.JSONDecodeError as e:
+        print("Invalid JSON file:", e)
+        exit(1)
 
     driver = get_driver()
     login_to_pickuphub(driver)
