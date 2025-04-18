@@ -81,7 +81,12 @@ def fetch_matches(driver):
 
     soup = BeautifulSoup(driver.page_source, "html.parser")
     page_text = soup.get_text(strip=True)
+
+    print("DEBUG :\n" + str(page_text.split("My Schedule")))
+
     match_list_unclean = page_text.split("My Schedule")[1].split("Recommended Games")[0].split("(Indoor)")
+
+    # print("DEBUG :\n" + str(match_list_unclean))
 
     matches = []
     if match_list_unclean[0] != 'No scheduled games right now.':
