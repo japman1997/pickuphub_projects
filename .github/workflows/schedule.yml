@@ -23,9 +23,9 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: Create service_account.json
+    - name: Decode and write service account credentials
       run: |
-        echo "${{ secrets.GOOGLE_CREDENTIALS_JSON }}" > service_account.json
+        echo "${{ secrets.GOOGLE_CREDENTIALS_B64 }}" | base64 --decode > service_account.json      
 
     - name: Run script
       env:
