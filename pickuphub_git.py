@@ -78,11 +78,10 @@ def convert_clean_list(unclean_String):
 
 def fetch_matches(driver):
     driver.get(PICKUPHUB_URL)
-    time.sleep(3)
+    time.sleep(10)
 
     soup = BeautifulSoup(driver.page_source, "html.parser")
     page_text = soup.get_text(strip=True)
-
     match_list_unclean = page_text.split("My Schedule")[1].split("Recommended Games")[0].split("(Indoor)")
 
     matches = []
