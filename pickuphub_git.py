@@ -70,7 +70,12 @@ def convert_datetime(date_string):
     current_year = datetime.datetime.now().year
     date_string_with_year = f"{current_year} {date_string}"
     date_format = "%Y %b %d %I:%M %p"
-    return datetime.datetime.strptime(date_string_with_year, date_format)
+    date_value = datetime.datetime.strptime(date_string_with_year, date_format)
+
+    if date_value < datetime.datetime.now():
+        date_value = date_value.replace(year=current_year + 1)
+
+    return date_value
 
 def convert_clean_list(unclean_String):
     cleaner = unclean_String.split(',')[-1].split('(80 mins)')
@@ -162,6 +167,8 @@ def main():
 
     for match in matches:
         add_event_to_calendar(match)
+
+
 
     driver.quit()
     print("All matches processed.")
